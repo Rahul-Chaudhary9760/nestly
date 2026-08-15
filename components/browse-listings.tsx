@@ -1,22 +1,23 @@
-'use client'
+"use client";
 
-import { useMemo, useState } from 'react'
-import { SlidersHorizontal, X } from 'lucide-react'
-import PgCard from '@/components/pg-card'
-import type { PG } from '@/lib/types'
+import { useMemo, useState } from "react";
+import { SlidersHorizontal, X } from "lucide-react";
+import LocationSelect from "@/components/location-select";
+import PgCard from "@/components/pg-card";
+import type { PG } from "@/lib/types";
 
-const roomTypes = ['Single', 'Double sharing', 'Studio', 'Co-living'] as const
-const genders = ['Any', 'Men', 'Women'] as const
-type SortKey = 'recommended' | 'price-asc' | 'price-desc' | 'rating'
+const roomTypes = ["Single", "Double sharing", "Studio", "Co-living"] as const;
+const genders = ["Any", "Men", "Women"] as const;
+type SortKey = "recommended" | "price-asc" | "price-desc" | "rating";
 
 function Chip({
   active,
   children,
   onClick,
 }: {
-  active: boolean
-  children: React.ReactNode
-  onClick: () => void
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
 }) {
   return (
     <button
@@ -24,47 +25,44 @@ function Chip({
       onClick={onClick}
       className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
         active
-          ? 'border-primary bg-primary text-primary-foreground'
-          : 'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-ink'
+          ? "border-primary bg-primary text-primary-foreground"
+          : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-ink"
       }`}
     >
       {children}
     </button>
-  )
+  );
 }
 
-export default function BrowseListings({
-  pgs,
-  cities,
-}: {
-  pgs: PG[]
-  cities: string[]
-}) {
-  const [city, setCity] = useState<string | null>(null)
-  const [room, setRoom] = useState<string | null>(null)
-  const [gender, setGender] = useState<string | null>(null)
-  const [sort, setSort] = useState<SortKey>('recommended')
+export default function BrowseListings({ pgs }: { pgs: PG[] }) {
+  const [city, setCity] = useState("");
+  const [area, setArea] = useState("");
+  const [room, setRoom] = useState<string | null>(null);
+  const [gender, setGender] = useState<string | null>(null);
+  const [sort, setSort] = useState<SortKey>("recommended");
 
   const results = useMemo(() => {
     let out = pgs.filter(
       (pg) =>
         (!city || pg.city === city) &&
+        (!area || pg.area === area) &&
         (!room || pg.roomType === room) &&
-        (!gender || pg.gender === gender || pg.gender === 'Any'),
-    )
-    out = [...out]
-    if (sort === 'price-asc') out.sort((a, b) => a.price - b.price)
-    else if (sort === 'price-desc') out.sort((a, b) => b.price - a.price)
-    else if (sort === 'rating') out.sort((a, b) => b.rating - a.rating)
-    return out
-  }, [pgs, city, room, gender, sort])
+        (!gender || pg.gender === gender || pg.gender === "Any"),
+    );
+    out = [...out];
+    if (sort === "price-asc") out.sort((a, b) => a.price - b.price);
+    else if (sort === "price-desc") out.sort((a, b) => b.price - a.price);
+    else if (sort === "rating") out.sort((a, b) => b.rating - a.rating);
+    return out;
+  }, [pgs, city, area, room, gender, sort]);
 
-  const hasFilters = city || room || gender
+  const hasFilters = city || area || room || gender;
   const clearAll = () => {
-    setCity(null)
-    setRoom(null)
-    setGender(null)
-  }
+    setCity("");
+    setArea("");
+    setRoom(null);
+    setGender(null);
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -86,19 +84,14 @@ export default function BrowseListings({
         <div className="mt-4 flex flex-col gap-4">
           <div>
             <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              City
+              Location
             </p>
-            <div className="flex flex-wrap gap-2">
-              {cities.map((c) => (
-                <Chip
-                  key={c}
-                  active={city === c}
-                  onClick={() => setCity(city === c ? null : c)}
-                >
-                  {c}
-                </Chip>
-              ))}
-            </div>
+            <LocationSelect
+              city={city}
+              area={area}
+              onCityChange={setCity}
+              onAreaChange={setArea}
+            />
           </div>
 
           <div>
@@ -139,8 +132,8 @@ export default function BrowseListings({
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">
-          <span className="font-semibold text-ink">{results.length}</span>{' '}
-          {results.length === 1 ? 'stay' : 'stays'} available
+          <span className="font-semibold text-ink">{results.length}</span>{" "}
+          {results.length === 1 ? "stay" : "stays"} available
         </p>
         <label className="flex items-center gap-2 text-sm text-muted-foreground">
           Sort by
@@ -181,5 +174,5 @@ export default function BrowseListings({
         </div>
       )}
     </div>
-  )
+  );
 }

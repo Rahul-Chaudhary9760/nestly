@@ -1,13 +1,13 @@
-import SiteHeader from '@/components/site-header'
-import SiteFooter from '@/components/site-footer'
-import BrowseListings from '@/components/browse-listings'
-import { pgs, cities } from '@/lib/mock-data'
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
+import BrowseListings from "@/components/browse-listings";
+import { pgs, cities } from "@/lib/mock-data";
 
 export const metadata = {
-  title: 'Browse PGs — Nestly',
+  title: "Browse PGs — Nestly",
   description:
-    'Browse verified PGs and co-living spaces across India. Filter by city, room type, and budget.',
-}
+    "Browse verified PGs and co-living spaces across India. Filter by city, room type, and budget.",
+};
 
 export default function BrowsePage() {
   return (
@@ -31,10 +31,10 @@ export default function BrowsePage() {
         </section>
 
         <section className="mx-auto max-w-6xl px-5 py-8 sm:px-6 sm:py-10">
-          <BrowseListings pgs={pgs} cities={cities} />
+          <BrowseListings pgs={pgs} />
         </section>
       </main>
       <SiteFooter />
     </div>
-  )
+  );
 }
