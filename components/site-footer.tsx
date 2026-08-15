@@ -1,19 +1,35 @@
-import { Home } from 'lucide-react'
+import Link from "next/link";
+import { Home } from "lucide-react";
 
 const columns = [
   {
-    title: 'Explore',
-    links: ['Browse PGs', 'Cities', 'Co-living', 'Studios'],
+    title: "Explore",
+    links: [
+      { label: "Browse PGs", href: "#" },
+      { label: "Cities", href: "#" },
+      { label: "Co-living", href: "#" },
+      { label: "Studios", href: "#" },
+    ],
   },
   {
-    title: 'Company',
-    links: ['About us', 'Careers', 'Press', 'Contact'],
+    title: "Company",
+    links: [
+      { label: "About us", href: "/about" },
+      { label: "Careers", href: "#" },
+      { label: "Press", href: "#" },
+      { label: "Contact", href: "/contact" },
+    ],
   },
   {
-    title: 'Support',
-    links: ['Help center', 'List your PG', 'Safety', 'Terms'],
+    title: "Support",
+    links: [
+      { label: "Help center", href: "#" },
+      { label: "List your PG", href: "#" },
+      { label: "Safety", href: "/legal#safety" },
+      { label: "Terms", href: "/legal#terms" },
+    ],
   },
-]
+];
 
 export default function SiteFooter() {
   return (
@@ -40,13 +56,13 @@ export default function SiteFooter() {
               <h4 className="text-sm font-semibold text-ink">{col.title}</h4>
               <ul className="mt-3 space-y-2">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
                       className="text-sm text-muted-foreground transition-colors hover:text-primary"
                     >
-                      {link}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -64,5 +80,5 @@ export default function SiteFooter() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
