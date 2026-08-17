@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 import {
   ArrowRight,
   ShieldCheck,
@@ -8,29 +8,32 @@ import {
   MessageCircleHeart,
   Search,
   Sparkles,
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import SiteHeader from '@/components/site-header'
-import SiteFooter from '@/components/site-footer'
-import LocationSelect from '@/components/location-select'
-import HeroCarousel from '@/components/hero-carousel'
-import ReviewsCarousel from '@/components/reviews-carousel'
-import PgCard from '@/components/pg-card'
-import StatCard from '@/components/stat-card'
-import FeatureCard from '@/components/feature-card'
-import { pgs, reviews } from '@/lib/mock-data'
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import SiteHeader from "@/components/site-header";
+import SiteFooter from "@/components/site-footer";
+import LocationSelect from "@/components/location-select";
+import HeroCarousel from "@/components/hero-carousel";
+import ReviewsCarousel from "@/components/reviews-carousel";
+import PgCard from "@/components/pg-card";
+import StatCard from "@/components/stat-card";
+import FeatureCard from "@/components/feature-card";
+import { pgs, reviews } from "@/lib/mock-data";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const [city, setCity] = useState('')
-  const [area, setArea] = useState('')
+  const [city, setCity] = useState("");
+  const [area, setArea] = useState("");
+
+  const router = useRouter();
 
   function handleSearch() {
     document
-      .getElementById('listings')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      .getElementById("listings")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  const featured = pgs.slice(0, 4)
+  const featured = pgs.slice(0, 4);
 
   return (
     <div id="top" className="min-h-screen">
@@ -43,10 +46,10 @@ export default function Page() {
           className="absolute inset-0 -z-10 opacity-[0.4]"
           style={{
             backgroundImage:
-              'radial-gradient(circle at 1px 1px, var(--color-primary) 1px, transparent 0)',
-            backgroundSize: '26px 26px',
+              "radial-gradient(circle at 1px 1px, var(--color-primary) 1px, transparent 0)",
+            backgroundSize: "26px 26px",
             maskImage:
-              'radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent)',
+              "radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent)",
           }}
         />
 
@@ -109,7 +112,10 @@ export default function Page() {
       </section>
 
       {/* Listings */}
-      <section id="listings" className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20">
+      <section
+        id="listings"
+        className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20"
+      >
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
             <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
@@ -165,7 +171,10 @@ export default function Page() {
       </section>
 
       {/* Reviews */}
-      <section id="reviews" className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20">
+      <section
+        id="reviews"
+        className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20"
+      >
         <div className="mb-8 text-center">
           <h2 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
             What residents say
@@ -184,8 +193,8 @@ export default function Page() {
             className="absolute inset-0 opacity-10"
             style={{
               backgroundImage:
-                'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-              backgroundSize: '24px 24px',
+                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+              backgroundSize: "24px 24px",
             }}
           />
           <div className="relative">
@@ -199,18 +208,18 @@ export default function Page() {
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Button
                 size="lg"
-                onClick={handleSearch}
+                onClick={() => router.push("/browse")}
                 className="h-12 bg-accent px-6 text-base text-accent-foreground hover:bg-accent/90"
               >
                 Browse all PGs
               </Button>
-              <Button
+              {/* <Button
                 size="lg"
                 variant="outline"
                 className="h-12 border-primary-foreground/30 bg-transparent px-6 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
                 List your PG
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
@@ -218,5 +227,5 @@ export default function Page() {
 
       <SiteFooter />
     </div>
-  )
+  );
 }
