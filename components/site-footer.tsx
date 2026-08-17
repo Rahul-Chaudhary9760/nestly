@@ -15,8 +15,6 @@ const columns = [
     title: "Company",
     links: [
       { label: "About us", href: "/about" },
-      { label: "Careers", href: "#" },
-      { label: "Press", href: "#" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -24,7 +22,6 @@ const columns = [
     title: "Support",
     links: [
       { label: "Help center", href: "#" },
-      { label: "List your PG", href: "#" },
       { label: "Safety", href: "/legal#safety" },
       { label: "Terms", href: "/legal#terms" },
     ],

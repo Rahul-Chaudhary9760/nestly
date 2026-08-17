@@ -24,12 +24,13 @@ export default function NotFound() {
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Button size="lg" className="h-12 px-6 text-base">
-              <Link href="/">
-                <Home className="size-4" /> Back to home
+              <Link href="/" className="inline-flex items-center gap-2">
+                <Home className="size-4" />
+                <span>Back to home</span>
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="h-12 px-6 text-base">
-              <Link href="/#listings">Browse PGs</Link>
+              <Link href="/browse">Browse PGs</Link>
             </Button>
           </div>
         </div>
