@@ -1,43 +1,43 @@
-'use client'
+"use client";
 
-import { useMemo, useState } from 'react'
-import Image from 'next/image'
+import { useMemo, useState } from "react";
+import Image from "next/image";
 import {
   Search,
   BadgeCheck,
   Star,
   Trash2,
+  Pencil,
   ShieldCheck,
   ShieldOff,
-} from 'lucide-react'
-import type { PG } from '@/lib/types'
+} from "lucide-react";
+import type { PG } from "@/lib/types";
 
-export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
-  const [rows, setRows] = useState(initialPgs)
-  const [query, setQuery] = useState('')
+interface PgTableProps {
+  pgs: PG[];
+  onEdit: (pg: PG) => void;
+  onToggleVerified: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+export default function PgTable({
+  pgs,
+  onEdit,
+  onToggleVerified,
+  onDelete,
+}: PgTableProps) {
+  const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (!q) return rows
-    return rows.filter(
+    const q = query.trim().toLowerCase();
+    if (!q) return pgs;
+    return pgs.filter(
       (pg) =>
         pg.name.toLowerCase().includes(q) ||
         pg.city.toLowerCase().includes(q) ||
         pg.area.toLowerCase().includes(q),
-    )
-  }, [rows, query])
-
-  function toggleVerified(id: string) {
-    setRows((prev) =>
-      prev.map((pg) =>
-        pg.id === id ? { ...pg, verified: !pg.verified } : pg,
-      ),
-    )
-  }
-
-  function remove(id: string) {
-    setRows((prev) => prev.filter((pg) => pg.id !== id))
-  }
+    );
+  }, [pgs, query]);
 
   return (
     <div className="rounded-card border border-border bg-card">
@@ -47,7 +47,7 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
             All listings
           </h2>
           <p className="text-sm text-muted-foreground">
-            {filtered.length} of {rows.length} properties
+            {filtered.length} of {pgs.length} properties
           </p>
         </div>
         <div className="relative w-full sm:w-64">
@@ -85,7 +85,7 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
                   <div className="flex items-center gap-3">
                     <div className="relative size-10 shrink-0 overflow-hidden rounded-lg">
                       <Image
-                        src={pg.image || '/placeholder.svg'}
+                        src={pg.image || "/placeholder.svg"}
                         alt={pg.name}
                         fill
                         sizes="40px"
@@ -102,7 +102,7 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
                   {pg.roomType}
                 </td>
                 <td className="px-4 py-3 font-medium text-ink">
-                  ₹{pg.price.toLocaleString('en-IN')}
+                  ₹{pg.price.toLocaleString("en-IN")}
                 </td>
                 <td className="px-4 py-3">
                   <span className="inline-flex items-center gap-1 text-ink">
@@ -125,8 +125,8 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
                   <div className="flex items-center justify-end gap-1.5">
                     <button
                       type="button"
-                      onClick={() => toggleVerified(pg.id)}
-                      title={pg.verified ? 'Unverify' : 'Verify'}
+                      onClick={() => onToggleVerified(pg.id)}
+                      title={pg.verified ? "Unverify" : "Verify"}
                       className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-ink"
                     >
                       {pg.verified ? (
@@ -137,7 +137,15 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
                     </button>
                     <button
                       type="button"
-                      onClick={() => remove(pg.id)}
+                      onClick={() => onEdit(pg)}
+                      title="Edit"
+                      className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-ink"
+                    >
+                      <Pencil className="size-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(pg.id)}
                       title="Delete"
                       className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive"
                     >
@@ -157,7 +165,7 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
           <div key={pg.id} className="flex gap-3 p-4">
             <div className="relative size-14 shrink-0 overflow-hidden rounded-lg">
               <Image
-                src={pg.image || '/placeholder.svg'}
+                src={pg.image || "/placeholder.svg"}
                 alt={pg.name}
                 fill
                 sizes="56px"
@@ -168,7 +176,7 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
               <div className="flex items-start justify-between gap-2">
                 <p className="font-medium text-ink">{pg.name}</p>
                 <span className="shrink-0 font-medium text-ink">
-                  ₹{pg.price.toLocaleString('en-IN')}
+                  ₹{pg.price.toLocaleString("en-IN")}
                 </span>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -187,7 +195,7 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
                 <div className="flex gap-1.5">
                   <button
                     type="button"
-                    onClick={() => toggleVerified(pg.id)}
+                    onClick={() => onToggleVerified(pg.id)}
                     className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-muted hover:text-ink"
                   >
                     {pg.verified ? (
@@ -198,7 +206,14 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => remove(pg.id)}
+                    onClick={() => onEdit(pg)}
+                    className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-muted hover:text-ink"
+                  >
+                    <Pencil className="size-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onDelete(pg.id)}
                     className="flex size-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive"
                   >
                     <Trash2 className="size-4" />
@@ -216,5 +231,5 @@ export default function PgTable({ initialPgs }: { initialPgs: PG[] }) {
         </div>
       )}
     </div>
-  )
+  );
 }

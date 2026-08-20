@@ -28,9 +28,7 @@ export default function Page() {
   const router = useRouter();
 
   function handleSearch() {
-    document
-      .getElementById("listings")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    router.push(`/browse?city=${city}&area=${area}`);
   }
 
   const featured = pgs.slice(0, 4);
