@@ -1,14 +1,14 @@
-import Link from 'next/link'
-import { Home, LogOut, LayoutDashboard, Building2 } from 'lucide-react'
-import { getSession } from '@/lib/auth'
-import { signOut } from '@/app/actions/auth'
+import Link from "next/link";
+import { Home, LogOut, LayoutDashboard, Building2 } from "lucide-react";
+import { getSession } from "@/lib/auth";
+import { signOut } from "@/app/actions/auth";
 
 export default async function AdminLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const session = await getSession()
+  const session = await getSession();
 
   return (
     <div className="min-h-dvh bg-secondary/40">
@@ -31,7 +31,7 @@ export default async function AdminLayout({
           <div className="flex items-center gap-3">
             <div className="hidden text-right sm:block">
               <p className="text-sm font-medium leading-tight text-ink">
-                {session?.name ?? 'Admin'}
+                {session?.name ?? "Admin"}
               </p>
               <p className="text-xs text-muted-foreground">{session?.email}</p>
             </div>
@@ -48,7 +48,7 @@ export default async function AdminLayout({
       </header>
 
       <div className="mx-auto flex max-w-6xl gap-6 px-5 py-8 sm:px-6">
-        <aside className="hidden w-52 shrink-0 lg:block">
+        {/* <aside className="hidden w-52 shrink-0 lg:block">
           <nav className="sticky top-24 flex flex-col gap-1">
             <span className="flex items-center gap-2.5 rounded-xl bg-primary px-3 py-2.5 text-sm font-medium text-primary-foreground">
               <LayoutDashboard className="size-4" /> Listings
@@ -57,10 +57,10 @@ export default async function AdminLayout({
               <Building2 className="size-4" /> Properties
             </span>
           </nav>
-        </aside>
+        </aside> */}
 
         <div className="min-w-0 flex-1">{children}</div>
       </div>
     </div>
-  )
+  );
 }
